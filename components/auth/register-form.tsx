@@ -19,6 +19,8 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
+import { register } from "@/actions/register";
+
 import { RegisterSchema } from "@/schemas/register";
 
 export const RegisterForm = () => {
@@ -36,7 +38,12 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    startTransition(() => console.log(values));
+    startTransition(() => {
+      register(values).then((data) => {
+        setSuccess(data.success);
+        setError(data.error);
+      });
+    });
   };
 
   return (

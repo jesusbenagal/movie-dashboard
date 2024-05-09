@@ -8,6 +8,8 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
+import { newVerification } from "@/actions/new-verification";
+
 export const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
@@ -22,6 +24,15 @@ export const NewVerificationForm = () => {
       setError("Missing token");
       return;
     }
+
+    newVerification(token)
+      .then((response) => {
+        setSuccess(response.success);
+        setError(response.error);
+      })
+      .catch((error) => {
+        setError("Something went wrong");
+      });
   }, [token, success, error]);
 
   useEffect(() => {

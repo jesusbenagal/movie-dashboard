@@ -19,6 +19,8 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
+import { reset } from "@/actions/reset";
+
 import { ResetSchema } from "@/schemas/reset";
 
 export const ResetForm = () => {
@@ -38,7 +40,10 @@ export const ResetForm = () => {
     setSuccess("");
 
     startTransition(() => {
-      console.log(values);
+      reset(values).then((data) => {
+        setError(data?.error);
+        setSuccess(data?.success);
+      });
     });
   };
 

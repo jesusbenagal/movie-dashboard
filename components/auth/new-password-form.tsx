@@ -3,7 +3,6 @@
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 
@@ -27,7 +26,6 @@ import { NewPasswordSchema } from "@/schemas/new-password";
 
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const token = searchParams.get("token");
 
   const [error, setError] = useState<string | undefined>("");
@@ -47,8 +45,8 @@ export const NewPasswordForm = () => {
 
     startTransition(() => {
       newPassword(values, token).then((data) => {
+        setError(data?.error);
         setSuccess(data?.success);
-        router.push("/auth/login");
       });
     });
   };

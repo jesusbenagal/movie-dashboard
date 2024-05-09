@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { BeatLoader } from "react-spinners";
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
@@ -15,6 +15,7 @@ export const NewVerificationForm = () => {
   const [success, setSuccess] = useState<string | undefined>();
 
   const searchParams = useSearchParams();
+  const router = useRouter();
   const token = searchParams.get("token");
 
   const onSubmit = useCallback(() => {
@@ -29,11 +30,12 @@ export const NewVerificationForm = () => {
       .then((response) => {
         setSuccess(response.success);
         setError(response.error);
+        router.push("/auth/login");
       })
       .catch((error) => {
         setError("Something went wrong");
       });
-  }, [token, success, error]);
+  }, [token, success, error, router]);
 
   useEffect(() => {
     onSubmit();
